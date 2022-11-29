@@ -1,0 +1,19 @@
+{
+  "name": "mybash",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "shell.js",
+  "bin": "shell.js",
+  "scripts": {
+    "start": "node shell.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.1.2",
+    "yargs": "^17.6.2"
+  }
+}
