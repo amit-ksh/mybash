@@ -1,6 +1,6 @@
 import process from 'process'
 import { isExecutable } from '../helpers.js';
-import { echo, pwd, ls, clear, cd, exit, executeBinary, listProcesses } from './commands.js';
+import { echo, pwd, ls, clear, cd, exit, executeBinary, listProcesses, showPath } from './commands.js';
 
 function runner(userInput){
   // parses the user input to understand which command was typed
@@ -45,6 +45,8 @@ function runner(userInput){
     default: 
         process.stdout.write('Typed command is not accurate');
   }
+
+  showPath()
 }
 
 const commandLibrary = { 

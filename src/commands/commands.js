@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { spawnSync } from 'child_process';
+import { fork, spawn, spawnSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
@@ -60,19 +60,33 @@ export async function executeBinary(inputArray) {
   const exe = inputArray[0];
   const args = inputArray.slice(1);
 
-  const child = spawnSync(exe, args);
+  const controller = new AbortController();
+  const { signal } = controller;
+  
+  const child = spawn(exe, args, { signal });
   console.info("Process Running with PID: ", child?.pid)
 
-  if (child.error) {
-    console.error(child.error);
-  }
-
-  if (child.output) {
-    for (const out of child.output) {
-      if (!out) continue
-      process.stdout.write(out + "\n")
+  let gotFirstLog = false
+  child.stdout.on('data', (data) => {
+    if (!gotFirstLog) {
+      gotFirstLog = true;
+      process.stdout.write('\n')
     }
-  }
+    process.stdout.write(data)
+  })
+
+  child.stdout.on('error', (err) => {
+    if (!gotFirstLog) {
+      gotFirstLog = true;
+      process.stdout.write('\n')
+    }
+    process.stdout.write('\n')
+    process.stdout.write(err)
+  })
+
+  child.stdout.on('close', () => {
+    showPath()
+  })
 }
 
 export function listProcesses() {

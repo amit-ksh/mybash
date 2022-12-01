@@ -12,11 +12,12 @@ showPath()
 process.stdin.on('data', async (userInput) => {
     userInput = userInput.toString().trim();
     runner(userInput);
-    showPath()
 }); 
 
 process.on('exit', () => {
     const goodbye = chalk.bold(chalk.green('\nBye Bye!! 👋'))
     console.log(goodbye);
 });
+
+
 
