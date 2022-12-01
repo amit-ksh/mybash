@@ -1,10 +1,16 @@
 import process from 'process'
-import { echo, pwd, ls, clear, cd, exit } from './commands.js';
+import { isExecutable } from '../helpers.js';
+import { echo, pwd, ls, clear, cd, exit, executeBinary, listProcesses } from './commands.js';
 
 function runner(userInput){
   // parses the user input to understand which command was typed
   const userInputArray = userInput.split(" ");
   const command = userInputArray[0]; 
+
+  if (isExecutable(command)) {
+    executeBinary(userInputArray)
+    return;
+  }
     
   switch (command) {
     case "echo":
@@ -23,6 +29,10 @@ function runner(userInput){
         commandLibrary.pwd()
         break;
     
+    case "ps":
+      commandLibrary.ps()
+      break;
+    
     case "cd":
       if (userInputArray.length === 2) 
         commandLibrary.cd(userInputArray[1])
@@ -34,7 +44,7 @@ function runner(userInput){
 
     default: 
         process.stdout.write('Typed command is not accurate');
-    }
+  }
 }
 
 const commandLibrary = { 
@@ -43,6 +53,7 @@ const commandLibrary = {
   "clear": clear,
   "cls": clear,
   "pwd": pwd,
+  "ps": listProcesses,
   "cd": cd,
   "ls": ls,
 };
