@@ -5,7 +5,8 @@ export const isPathAbsolute = (input) => {
 }
 
 export const isExecutable = (input) => {
-  if (input.split('.').at(-1) === 'exe')
+  console.log(input);
+  if (input.includes('.exe'))
     return true
   return false
 }

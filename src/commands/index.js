@@ -2,16 +2,17 @@ import process from 'process'
 import { isExecutable } from '../helpers.js';
 import { echo, pwd, ls, clear, cd, exit, executeBinary, listProcesses, showPath } from './commands.js';
 
-function runner(userInput){
+function runner(userInput) {
+  if (isExecutable(userInput)) {
+    const [exe, args] = userInput.split(".exe ")
+    // append the empty string if no args is passed
+    executeBinary([exe, args || ''])
+    return;
+  }
+  
   // parses the user input to understand which command was typed
   const userInputArray = userInput.split(" ");
   const command = userInputArray[0]; 
-
-  if (isExecutable(command)) {
-    executeBinary(userInputArray)
-    return;
-  }
-    
   switch (command) {
     case "echo":
         commandLibrary.echo(userInputArray.slice(1).join(" "));
