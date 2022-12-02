@@ -1,5 +1,5 @@
 import process from 'process'
-import { isExecutable } from '../helpers.js';
+import { isExecutable } from './helpers.js';
 import { echo, pwd, ls, clear, cd, exit, executeBinary, listProcesses, showPath } from './commands.js';
 
 function runner(userInput) {

@@ -1,10 +1,11 @@
 import chalk from 'chalk';
-import { fork, spawn, spawnSync } from 'child_process';
+import { spawn, spawnSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
+import emitter from './emitter.js';
 
-import { isPathAbsolute } from '../helpers.js';
+import { isPathAbsolute } from './helpers.js';
 
 const __dirname = path.dirname(process.cwd());
 
@@ -59,11 +60,8 @@ export function ls(input) {
 export async function executeBinary(inputArray) {
   const exe = inputArray[0];
   const args = inputArray.slice(1);
-
-  const controller = new AbortController();
-  const { signal } = controller;
   
-  const child = spawn(exe, args, { signal });
+  const child = spawn(exe, args);
   console.info("Process Running with PID: ", child?.pid)
 
   let gotFirstLog = false
@@ -81,12 +79,22 @@ export async function executeBinary(inputArray) {
       process.stdout.write('\n')
     }
     process.stdout.write('\n')
-    process.stdout.write(err)
+    process.stdout.write(err.message)
   })
 
   child.stdout.on('close', () => {
     showPath()
   })
+
+  const terminate = () => {
+    if (!child?.pid) return false
+    
+    console.log('Terminating subprocess with PID: ' + child.pid);
+    emitter.removeAllListeners()
+    return child.kill('SIGINT')
+  }
+
+  emitter.on('terminate', terminate)
 }
 
 export function listProcesses() {
