@@ -14,7 +14,8 @@ export const showPath = () => {
 } 
 
 export function echo(input) {
-  process.stdout.write(input.trim('"'));
+  console.log(input);
+  process.stdout.write(input.replace(/^["']/, '').replace(/[["']]$/, ''));
 }
 
 export function exit() {

@@ -15,7 +15,7 @@ function runner(userInput) {
   const command = userInputArray[0]; 
   switch (command) {
     case "echo":
-        commandLibrary.echo(userInputArray.slice(1).join(" "));
+        commandLibrary.echo(userInputArray[1] || '');
         break;
     
     case "exit":
@@ -23,6 +23,7 @@ function runner(userInput) {
       break;
     
     case "clear":
+    case "cls":
       commandLibrary.clear()
       break;
     
@@ -54,7 +55,6 @@ const commandLibrary = {
   "echo": echo,
   "exit": exit,
   "clear": clear,
-  "cls": clear,
   "pwd": pwd,
   "ps": listProcesses,
   "cd": cd,

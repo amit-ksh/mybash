@@ -5,7 +5,6 @@ export const isPathAbsolute = (input) => {
 }
 
 export const isExecutable = (input) => {
-  console.log(input);
   if (input.includes('.exe'))
     return true
   return false

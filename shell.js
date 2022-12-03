@@ -5,8 +5,7 @@ import { showPath } from './src/commands.js';
 import runner from './src/runner.js'
 import emitter from './src/emitter.js';
 
-// process.chdir(process.env.HOME);
-process.chdir('D:\\personal\\assignment\\mybash')
+process.chdir(process.env.HOME);
 showPath()
 
 // the stdin 'data' event triggers after a user types in a line
